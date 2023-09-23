@@ -1,13 +1,18 @@
 from django.http import HttpResponse , HttpResponseRedirect
 from django.shortcuts import render,redirect
-from empApp.models import Emp
-from empApp.form import FeedbackForm
+from empApp.models import Emp,Feedback
+from datetime import datetime
+from django.contrib import messages
 
 
 def homePage(request):
     emps=Emp.objects.all()
     return render(request,"index.html",{'emps':emps}) 
  
+def about(request):
+    return render(request,"about.html") 
+
+
 def add_emp(request):
      if request.method=="POST":
           
@@ -76,9 +81,14 @@ def do_update_emp(request,emp_id):
 
     return redirect('/home/')
 
+
 def feedback(request):
-    if request.method=='POST':
-        pass
-    else:
-        form=FeedbackForm()
-        return render(request,'feedback.html',{'form':form})
+    if request.method=="POST":
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        phone=request.POST.get('phone')
+        desc=request.POST.get('desc')
+        contact=Feedback(name=name,email=email,phone=phone,desc=desc,date=datetime.today())
+        contact.save()
+    return render(request,"feedback.html") 
+
