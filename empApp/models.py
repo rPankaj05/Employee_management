@@ -10,3 +10,11 @@ class Emp(models.Model):
     department=models.CharField(max_length=50)
 
  
+
+class Feedback(models.Model):
+    name  = models.CharField(max_length=120)
+    email = models.CharField(max_length=120)
+    phone = models.CharField(max_length=120)
+    desc  = models.TextField()
+    date  = models.DateTimeField()
+
